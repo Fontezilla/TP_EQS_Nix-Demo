@@ -1,179 +1,115 @@
-# Do Campo à Mesa · código base
+# Nix Demo · Do Campo à Mesa
 
-Mercado digital de produtores locais com leilões em tempo real.
-Trabalho prático individual de **Desenvolvimento Web e para a Cloud** (MEI · IPVC–ESTG), 7 semanas.
+Demonstração do **Nix** para a unidade curricular de Engenharia e Qualidade de Software (MEI · IPVC–ESTG).
 
-Este repositório é um **ponto de partida**. A infraestrutura já está montada, com servidor, ligação à base de dados, routing, estilos, autenticação por token e sockets. As funcionalidades estão marcadas com `TODO (Passo N)`, e os endpoints por fazer respondem `501 Not Implemented`.
+O projeto usado como cobaia é o "Do Campo à Mesa", um mercado de produtores locais com leilões em tempo real, feito para outra unidade curricular. Tem três linguagens e quatro ferramentas, e corria com Docker. Aqui corre **só com um `flake.nix`**: o mesmo ambiente, com as mesmas versões, em qualquer máquina com Nix.
 
-## Estrutura
+| Parte | Tecnologia | Porta |
+|---|---|---|
+| SPA (`web/`) | React · Vite | 5173 |
+| API (`api/`) | Node.js · Express · Socket.io | 3000 |
+| Backoffice (`backoffice/`) | Laravel 12 · PHP 8.4 + extensão `mongodb` | 8000 |
+| Base de dados | MongoDB (local, em `.nix-data/`) | 27017 |
 
-```
-do-campo-a-mesa/
-├── api/                      Node.js · Express · MongoDB · Socket.io
-│   ├── openapi.yaml          Passo 5: especificação OpenAPI (Swagger UI em /api-docs)
-│   └── src/
-│       ├── server.js         HTTP + Socket.io
-│       ├── app.js            Express: middleware, rotas, Swagger
-│       ├── config/db.js      ligação ao MongoDB
-│       ├── middleware/       auth.js (JWT + papéis), optionalAuth.js, verifiedProducer.js, errorHandler.js
-│       ├── models/           User, Product, Order, Auction, Bid, Review (Passo 4)
-│       ├── routes/           auth, products, producers, orders, auctions, reviews, admin (Passo 3)
-│       ├── sockets/          index.js (autenticação), auctions.js (Passo 7)
-│       ├── services/         auctionCycle.js, awarding.js (leilões), images.js: storage na Cloud (Passo 8)
-│       └── seed/seed.js      dados de exemplo
-├── backoffice/               Laravel 12 (MVC, Blade, Eloquent sobre o MongoDB): administração (ver backoffice/README.md)
-├── web/                      React (Vite) · Bootstrap 5 · SASS
-│   ├── public/               illustrations.svg (ilustrações das categorias), favicon.svg
-│   └── src/
-│       ├── App.jsx           rotas (visitante, comprador, produtor, admin)
-│       ├── api/              client.js (pedidos à API com o token JWT), products, auctions, orders, reviews, admin, mock
-│       ├── context/          AuthContext, CartContext, SocketContext (estado global)
-│       ├── hooks/            useData, useAuction (Socket.io), useRefresh, useCountdown, useAddToCart
-│       ├── components/       Navbar, ProductCard, AuctionCard, OrdersTable, ProtectedRoute…
-│       ├── pages/            Catalog, ProducerProfile, Auctions, AuctionRoom, Cart, Orders, producer/…, admin/…
-│       ├── styles/           _variables, _mixins (Mobile First), _theme, _base, _dashboard, main.scss
-│       └── data/             users, products, auctions, bids, orders, reviews (.json): dados simulados e do seed
-└── docs/
-    └── relatorio.md          estrutura sugerida para o relatório
-```
+## Arranque rápido
 
-## Convenção de nomes
-
-Todo o código está em inglês: ficheiros e pastas, variáveis, funções, componentes, classes CSS, campos da base de dados, valores dos estados (`live`, `pending`, `buyer`…), rotas da API, eventos do Socket.io e endereços da SPA (`/auctions`, `/cart`, `/producer`…). Os comentários e tudo o que o utilizador vê (textos, botões, mensagens de erro, nomes das categorias e dos estados) estão em português. As categorias e as épocas guardam um código (`fruit`, `autumn`) e o nome em português vem de `web/src/utils/labels.js`.
-
-## Backoffice de administração (Laravel)
-
-A administração não está na SPA: é um backoffice em Laravel 12 (`backoffice/`), a componente de valorização do enunciado. Usa Eloquent sobre a mesma base de dados MongoDB Atlas que a API. Tem:
-- validar ou rejeitar produtores;
-- moderar avaliações denunciadas;
-- indicadores;
-- listas de utilizadores, encomendas, produtos e leilões.
-
-Corre num contentor Docker (PHP 8.4 + Apache + extensão mongodb), por isso não é preciso instalar PHP:
+Precisa de **Nix com flakes ativas**, em Linux, macOS ou WSL2 (Windows).
 
 ```bash
-npm run backoffice   # http://localhost:8000 (admin@exemplo.pt / password123)
+git clone https://github.com/Fontezilla/TP_EQS_Nix-Demo.git
+cd TP_EQS_Nix-Demo
+nix develop
 ```
 
-Na SPA, a conta de administrador vê a loja como um visitante e tem no menu da conta a ligação "Abrir o backoffice" (`VITE_BACKOFFICE_URL`).
-
-## Contentores (Docker)
-
-`api/Dockerfile` (Node 20) e `backoffice/Dockerfile` (PHP 8.4 + Apache), juntos no `docker-compose.yml` da raiz (`npm run docker`). As mesmas imagens servem para o Azure App Service (Web App for Containers). A SPA não vai em contentor: depois do `vite build` são ficheiros estáticos para o Azure Static Web Apps.
-
-## Pré-requisitos
-
-- Node.js 20 ou superior
-- MongoDB local, ou um cluster gratuito no [MongoDB Atlas](https://www.mongodb.com/atlas)
-
-## Arranque
-
-Copiar `api/.env.example` para `api/.env` (preencher `MONGODB_URI` e `JWT_SECRET`) e `web/.env.example` para `web/.env`. Depois, na raiz:
+Dentro do shell:
 
 ```bash
-npm run instalar   # instala as dependências da raiz, da API e da SPA
-npm run seed       # dados de exemplo (APAGA as coleções; password: password123)
-npm run dev        # API em http://localhost:3000 (docs em /api-docs) e SPA em http://localhost:5173
+setup          # cria os .env, instala as dependências (npm + composer) e gera a APP_KEY
+db-start       # arranca o MongoDB local
+npm run seed   # dados de exemplo (apaga as coleções)
+start          # API, SPA e backoffice no mesmo terminal
 ```
 
-O `npm run dev` arranca os dois servidores no mesmo terminal (prefixos `[api]` e `[web]`). `Ctrl+C` para ambos.
+| Endereço | O quê |
+|---|---|
+| http://localhost:5173 | Loja (SPA) |
+| http://localhost:3000/api-docs | Documentação da API (Swagger) |
+| http://localhost:8000 | Backoffice |
 
-No `api/.env`, `CONFIRMATION_DEADLINE_MIN` (opcional, 60 por omissão) é o tempo que o vencedor de um leilão tem para confirmar a compra antes de o lote passar à licitação seguinte.
+`Ctrl+C` pára os servidores. Antes de sair do shell, `db-stop` pára o MongoDB (corre em background e não pára com o `exit`).
 
-Com `VITE_USE_MOCK_DATA=true`, a SPA funciona sem API, a partir dos JSON em `web/src/data` (os mesmos que o seed usa). As datas desses dados são relativas ao momento do seed: se os leilões ao vivo já tiverem terminado, basta correr `npm run seed` outra vez.
+Da segunda vez, o `setup` e o `seed` já não são precisos: `nix develop`, `db-start` e `start`.
 
-### Utilizadores de exemplo (`npm run seed`)
+### Contas de teste
 
-Todos os utilizadores têm a password `password123`.
+Todas com a password `password123`.
 
 | Papel | Email |
 |---|---|
-| admin | admin@exemplo.pt |
+| admin (backoffice) | admin@exemplo.pt |
 | produtor | horta@exemplo.pt |
-| produtor | mel@exemplo.pt |
 | comprador | tasca@exemplo.pt |
 
-O seed cria também 30 produtos, 16 leilões (5 ao vivo, 1 de teste com 1 minuto e 1 à espera da confirmação do vencedor), encomendas e avaliações.
+## O que o ambiente tem
 
-Atenção: o seed **apaga** todas as coleções antes de inserir os dados.
+| Ferramenta | Versão | Substitui |
+|---|---|---|
+| Node.js | 22 | `node:20-alpine` (o Node 20 chegou ao fim de vida e o nixpkgs recusa-o por ser inseguro) |
+| PHP | 8.4 + `mongodb` + `zip`, com OPcache | `php:8.4-apache` + `pecl` |
+| Composer | 2.x | `composer:2` |
+| MongoDB CE + mongosh | 8.2 | MongoDB Atlas |
 
-### Verificar que está tudo a funcionar
+As versões exatas vêm do commit do nixpkgs fixado no `flake.lock`. Só mudam com `nix flake update`.
 
-| Pedido | Resposta esperada |
+| Comando | O que faz |
 |---|---|
-| `GET http://localhost:3000/api/health` | `200 { "status": "ok" }` |
-| `GET http://localhost:3000/api/products` | `200` com a lista de produtos |
-| `http://localhost:3000/api-docs` | Swagger UI |
-| `GET /api/admin/stats` sem token | `401` (o middleware de autenticação está ativo) |
+| `setup` | Cria `api/.env`, `web/.env` e `backoffice/.env` a partir dos `.env.example`, com o MongoDB local e um `JWT_SECRET` aleatório; instala as dependências e gera a `APP_KEY` |
+| `db-start` / `db-stop` | Liga e desliga o MongoDB, com os dados em `.nix-data/` |
+| `start` | API, SPA e backoffice. `BACKOFFICE_PORT=8001 start` muda a porta do backoffice |
 
-## Notas da implementação
+## Antes (Docker) e depois (Nix)
 
-### API (`api/`): Node.js · Express · MongoDB · Socket.io
+O `backoffice/Dockerfile` existia para instalar o PHP com a extensão `mongodb`:
 
-**Já funciona:**
-
-- arranque do servidor HTTP partilhado pela API REST e pelo Socket.io;
-- ligação ao MongoDB, configuração por `.env` (ver `.env.example`) e tratamento centralizado de erros (`400` para validação, `500` para o resto);
-- middleware `auth(...papeis)`: valida o token JWT e o papel do utilizador (`401` sem token, `403` sem permissão);
-- Swagger UI em `/api-docs`, com o recurso `/products` documentado como exemplo;
-- sockets: autenticação com o mesmo JWT da API, sala pessoal por utilizador, salas por leilão e contagem de participantes;
-- serviço de upload de imagens para Azure Blob Storage (`services/images.js`);
-- script `npm run seed` com dados de exemplo.
-
-**Base para rever:**
-
-- modelos User, Product, Order, Auction, Bid e Review, a rever no Passo 4 (embedding vs linking, índices).
-
-**Por fazer:**
-
-- as rotas estão todas definidas, mas só a pesquisa de produtos (`GET /api/products`) está implementada; as restantes respondem `501` com um comentário a explicar o que falta;
-- o registo e o login (Passo 6);
-- a licitação atómica nos leilões (Passo 7), com a solução indicada em comentário em `sockets/auctions.js`.
-
-### SPA (`web/`): React (Vite) · Bootstrap 5 · SASS
-
-**Já funciona:**
-
-- rotas para os 4 intervenientes (visitante, comprador, produtor, administrador), com páginas protegidas por papel (`ProtectedRoute`);
-- menu que se adapta ao utilizador autenticado;
-- estado global da sessão (`AuthContext`) e do carrinho (`CartContext`);
-- catálogo com dados simulados (pesquisa, categorias e filtro biológico); com `VITE_USE_MOCK_DATA=false` passa a usar a API;
-- ligação em tempo real à sala de leilão (hook `useAuction`);
-- SASS com as variáveis do tema, o mixin Mobile First `media-up()` e a grelha do catálogo com 3 breakpoints (768, 1024 e 1280 px).
-
-**Por fazer:**
-
-- as páginas ainda por fazer mostram uma caixa tracejada **"Por implementar (Passo N)"** que diz o que falta.
-
-### Onde procurar o trabalho a fazer
-
-Há 25 marcadores `TODO (Passo N)` no código, ligados aos passos da apresentação. Para os listar todos:
-
-```bash
-grep -rn "TODO" api/src api/openapi.yaml web/src
+```dockerfile
+FROM php:8.4-apache
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git unzip libzip-dev libssl-dev pkg-config \
+ && pecl install mongodb-2.5.5 \
+ && docker-php-ext-enable mongodb \
+ && docker-php-ext-install zip \
+ && a2enmod rewrite ...
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 ```
 
-### Sugestão para distribuir o código
+No `flake.nix`:
 
-Colocar este código num repositório GitHub marcado como **template**. Cada aluno cria a sua cópia com *Use this template*, partilha-a com o docente e trabalha nela durante as 7 semanas.
+```nix
+php = pkgs.php84.buildEnv {
+  extensions = { enabled, all }: enabled ++ [ all.mongodb all.zip ];
+};
+composer = php.packages.composer;
+```
 
-## O que já está feito e o que falta
+- A extensão vem compilada da cache binária (`cache.nixos.org`): não há `apt-get` nem `pecl`.
+- Em desenvolvimento não é preciso Apache: o `php artisan serve` serve a pasta `public/`.
+- O `flake.lock` fixa o commit do nixpkgs. O `apt-get update` do Dockerfile instala versões diferentes conforme o dia em que se constrói a imagem.
 
-| Passo | Semana | Já feito | Por fazer (`TODO`) |
-|---|---|---|---|
-| 1 · Frontend | 1 | Bootstrap + SASS com variáveis, mixin `media-up()` e grelha do catálogo | 3 breakpoints em todas as páginas, estilos dos ecrãs restantes |
-| 2 · SPA | 2 | Routing, rotas protegidas por papel, contexto do carrinho e da sessão, catálogo | Páginas do produtor, leilões, painéis |
-| 3 · API REST | 3 | Todas as rotas definidas; `GET /api/products` implementado | Restantes endpoints (respondem 501) |
-| 4 · MongoDB | 3 | Schemas base | Rever embedding vs linking, índices, avaliações |
-| 5 · Swagger | 4 | Swagger UI e documentação de `/products` | Documentar os restantes recursos |
-| 6 · Segurança | 4 | Middleware `auth(...papeis)` | Registo e login (bcrypt + JWT), formulários |
-| 7 · Tempo real | 5 | Autenticação dos sockets, salas, presença, hook `useAuction` | Licitação atómica, contagem decrescente, notificações |
-| 8 · Cloud | 6 | Serviço de upload para Azure Blob Storage | Deployment (PaaS), variáveis de ambiente, HTTPS |
+Os Dockerfiles e o `docker-compose.yml` continuam no repositório para a comparação. Para a cloud continua a ser precisa uma imagem de contentor, que também se pode gerar com o Nix (`pkgs.dockerTools.buildImage`).
 
-Na semana 7 ficam os testes, o relatório (`docs/relatorio.md`) e o vídeo.
+## Guião da demonstração
 
-## Regras do repositório
+1. **Sem nada instalado:** `node --version` e `php --version` dão `command not found`.
+2. **Entrar no ambiente:** `nix develop` mostra as versões no cabeçalho.
+3. **De onde vêm as ferramentas:** `which php` aponta para `/nix/store/<hash>-php-with-extensions-8.4.27/bin/php`. O hash é **igual em todas as máquinas** com o mesmo `flake.lock`.
+4. **Correr o projeto:** `db-start && start` e abrir a loja e o backoffice no browser.
+5. **Trocar de versão:** mudar `pkgs.nodejs_22` para `pkgs.nodejs_24` no `flake.nix`, sair e voltar a entrar; `node --version` mostra a nova versão. Voltar ao 22 é instantâneo, porque continua na store.
+6. **Sair:** `exit` e repetir o passo 1. As ferramentas desaparecem e o sistema fica como estava.
 
-- Faça *commits* pequenos e frequentes, com mensagens claras. O histórico é considerado na avaliação.
-- O ficheiro `.env` nunca vai para o Git; use `.env.example` como modelo.
-- Declare no relatório as bibliotecas e os assistentes de IA que usar.
+## Notas
+
+- **WSL:** clonar o repositório para dentro do Linux (por exemplo `~/TP_EQS_Nix-Demo`). A partir de `/mnt/c` ou `/mnt/d`, o `npm install` e o backoffice ficam muitas vezes mais lentos.
+- **Primeira vez:** o `nix develop` descarrega cerca de 414 MiB da cache. Daí em diante entra de imediato.
+- **Flakes e Git:** as flakes só veem os ficheiros que estão no Git. Um ficheiro novo tem de ser adicionado com `git add` antes do `nix develop`.
+- **Segredos:** os `.env` nunca vão para o Git (estão no `.gitignore`). O `setup` gera-os em cada máquina, com valores locais e aleatórios.
+- **Espaço em disco:** `nix-collect-garbage -d` apaga da `/nix/store` o que já não é usado.
