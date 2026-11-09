@@ -1,0 +1,162 @@
+@use 'sass:list';
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ---------- Corpo e tipografia ----------
+body {
+  font-variation-settings: 'opsz' 14;
+  padding-bottom: 84px; // espaço para a barra de separadores do telemóvel
+  @include media-up(md) { padding-bottom: 0; }
+}
+
+#root { min-height: 100vh; display: flex; flex-direction: column; }
+#root > main { flex: 1 0 auto; }
+
+h1, h2, h3, h4 { font-variation-settings: 'opsz' 96; letter-spacing: -0.035em; font-weight: 750; margin: 0; }
+h1 { font-size: clamp(40px, 7vw, 72px); line-height: .95; font-variation-settings: 'opsz' 96, 'wdth' 88; font-weight: 800; }
+h2 { font-size: clamp(26px, 4vw, 38px); line-height: 1.05; }
+h3 { font-size: 18px; letter-spacing: -0.015em; font-weight: 650; font-variation-settings: 'opsz' 24; }
+p { margin-bottom: .5rem; }
+
+:focus-visible { outline: 3px solid $forest; outline-offset: 3px; border-radius: 8px; }
+.muted { color: $muted; }
+.num { font-variant-numeric: tabular-nums; }
+
+.container-xl {
+  padding-inline: 20px;
+  @include media-up(md) { padding-inline: 28px; }
+}
+
+// ---------- Botões ----------
+.btn {
+  border-radius: 999px; font-weight: 600; padding: .7rem 1.25rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+}
+.btn-sm { padding: .4rem .9rem; font-size: .875rem; }
+.btn-lg { padding: .9rem 1.6rem; font-size: 1.05rem; }
+.btn-primary {
+  --bs-btn-hover-bg: #{$forest-2}; --bs-btn-hover-border-color: #{$forest-2};
+  --bs-btn-active-bg: #{$forest-2}; --bs-btn-active-border-color: #{$forest-2};
+}
+.btn-lime {
+  background: $lime; color: $forest; border-color: $lime;
+  &:hover, &:active { background: #BADC56; color: $forest; border-color: #BADC56; }
+}
+.btn-outline {
+  background: $white; color: $ink; border-color: $line;
+  &:hover, &:active { background: $white; color: $ink; border-color: $ink; }
+}
+.btn-danger-soft {
+  background: $white; color: $error; border-color: #F3C7C2;
+  &:hover, &:active { background: #FEF1EF; color: $error; border-color: $error; }
+}
+.btn-round { width: 40px; height: 40px; padding: 0; border-radius: 50%; }
+.text-link { font-weight: 600; text-decoration: underline; text-underline-offset: 4px; color: $forest; }
+
+// ---------- Formulários ----------
+.form-control, .form-select { padding: .7rem .95rem; background-color: $white; }
+.form-control:focus, .form-select:focus, .form-check-input:focus { border-color: $forest; box-shadow: 0 0 0 .2rem rgba($forest, .15); }
+.form-label { font-weight: 600; margin-bottom: .35rem; font-size: .9375rem; }
+.form-check-input:checked { background-color: $forest; border-color: $forest; }
+.input-group .btn { border-radius: 0 $r-field $r-field 0; }
+
+.segmented {
+  display: inline-flex; gap: 4px; max-width: 100%; overflow-x: auto; scrollbar-width: none;
+  background: $white; border: 1px solid $line; border-radius: 999px; padding: 4px;
+  button, label { flex: none; border: 0; background: none; padding: 8px 14px; border-radius: 999px; font-weight: 500; cursor: pointer; margin: 0; white-space: nowrap; }
+  .is-active, input:checked + label { background: $forest; color: $white; }
+  input { position: absolute; opacity: 0; }
+}
+
+// ---------- Estrutura de página ----------
+.page { padding-top: 32px; }
+.page-header {
+  display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;
+  p { margin: 8px 0 0; color: $muted; max-width: 56ch; }
+}
+.section { margin-top: 48px; }
+.breadcrumbs {
+  font-size: 14px; color: $muted; margin-bottom: 12px;
+  a { color: $muted; }
+}
+// Os itens de grelha não encolhem abaixo do conteúdo sem isto (tabelas, textos longos)
+.d-grid > * { min-width: 0; }
+
+.panel { background: $white; border: 1px solid $line; border-radius: $r-card; padding: 20px; }
+.panel-dark {
+  background: $forest; color: #EAF2EC; border-radius: $r-large; padding: 24px;
+  .muted, small { color: $muted-dark; }
+  small { display: block; }
+}
+.modal-content { border-radius: $r-card; border: 0; }
+.empty-state { text-align: center; padding: 40px 20px; }
+
+// ---------- Categorias: campo de cor + ilustração ----------
+svg.illus { display: block; width: 100%; height: 100%; }
+.tile { position: relative; border-radius: $r-field; display: grid; place-items: center; overflow: hidden; }
+@each $name, $colors in $categories {
+  .cat-#{$name} { background: list.nth($colors, 1); }
+  [data-cat='#{$name}'] { --stripe: #{list.nth($colors, 2)}; }
+}
+.mini-product {
+  display: flex; align-items: center; gap: 10px;
+  .tile { width: 44px; height: 44px; border-radius: 12px; flex: none; }
+  .tile svg { width: 72%; height: 72%; }
+}
+
+// ---------- Etiquetas e estados ----------
+.tag {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; background: $white; color: $ink;
+}
+.tag-lime { background: $lime-light; color: $forest; }
+.tag-notice { background: $notice; color: $notice-text; }
+.tag-outline { border: 1px solid $line; }
+.tag-live {
+  background: $coral; color: $ink;
+  .pulse { background: $ink; animation: none; }
+}
+.pulse { width: 8px; height: 8px; border-radius: 50%; background: $coral; flex: none; animation: pulse 1.6s infinite; }
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba($coral, .6); }
+  70% { box-shadow: 0 0 0 8px rgba($coral, 0); }
+  100% { box-shadow: 0 0 0 0 rgba($coral, 0); }
+}
+.stars {
+  font-size: 13px; color: $muted;
+  i { color: $star; }
+}
+
+.status { display: inline-flex; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.status-pending { background: $notice; color: $notice-text; }
+.status-confirmed { background: $lime-light; color: $forest; }
+.status-ready { background: $forest; color: $lime; }
+.status-delivered { background: $line; color: $muted; }
+
+// ---------- Tabelas dos painéis ----------
+// position: relative prende os textos .visually-hidden (absolutos) dentro do scroll
+.table-scroll { overflow-x: auto; position: relative; }
+.data-table {
+  width: 100%; font-size: 14px;
+  th { font-size: 12px; font-weight: 600; color: $muted; padding: 0 10px 10px; text-align: left; }
+  td { padding: 12px 10px; border-top: 1px solid $line; vertical-align: middle; }
+  .form-select { padding: .35rem 2rem .35rem .75rem; font-size: 13px; font-weight: 600; border-radius: 999px; width: auto; }
+}
+
+// No telemóvel cada linha passa a um bloco, sem scroll para o lado; cada tabela arruma as suas células
+// com grid-template-areas. data-label põe o nome da coluna por cima do valor.
+.data-table.stack-mobile {
+  @include media-down(md) {
+    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    tbody, td { display: block; }
+    tr { display: grid; gap: 10px 12px; align-items: center; padding: 16px 0; border-top: 1px solid $line; }
+    tbody tr:first-child { border-top: 0; padding-top: 4px; }
+    tbody tr:last-child { padding-bottom: 0; }
+    td { padding: 0; border: 0; min-width: 0; }
+    td[data-label]::before { content: attr(data-label); display: block; margin-bottom: 2px; font-size: 12px; font-weight: 600; color: $muted; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

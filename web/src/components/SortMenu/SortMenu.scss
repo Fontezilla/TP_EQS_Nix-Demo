@@ -1,0 +1,59 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.sort-menu {
+  position: relative;
+
+  .sort-menu__trigger {
+    display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px;
+    background: $white; color: $ink; border: 1px solid $line; border-radius: 999px;
+    font: inherit; font-weight: 600; font-size: 15px; white-space: nowrap;
+    &:hover { border-color: $ink; }
+    &:focus-visible { outline: 3px solid $forest; outline-offset: 2px; }
+    &[aria-expanded="true"] { border-color: $forest; background: $lime-light; }
+  }
+  .sort-menu__chevron { font-size: 12px; transition: transform .15s ease; }
+  [aria-expanded="true"] .sort-menu__chevron { transform: rotate(180deg); }
+
+  // Telemóvel: folha que sobe do fundo, por cima da barra de separadores
+  .sort-menu__backdrop { position: fixed; inset: 0; z-index: 1040; background: rgba($forest, .35); }
+  .sort-menu__panel {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1045;
+    padding: 10px 12px calc(16px + env(safe-area-inset-bottom));
+    background: $white; border-radius: $r-large $r-large 0 0;
+    animation: sort-sheet-up .2s ease-out;
+    &::before { content: ''; display: block; width: 40px; height: 4px; margin: 0 auto 10px; border-radius: 999px; background: $line; }
+  }
+  .sort-menu__title { margin: 0 8px 6px; font-weight: 700; font-size: 17px; color: $ink; }
+
+  [role="menuitemradio"] {
+    display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; padding: 0 12px;
+    background: none; border: 0; border-radius: $r-field; color: $ink; font: inherit; font-size: 16px; text-align: left;
+    > .bi:first-child { width: 20px; color: $muted; font-size: 18px; }
+    &:hover, &:focus-visible { background: $paper; outline: none; }
+    &:focus-visible { box-shadow: inset 0 0 0 2px $forest; }
+    &[aria-checked="true"] { background: $lime-light; font-weight: 700; }
+    &[aria-checked="true"] > .bi:first-child { color: $forest; }
+  }
+  .sort-menu__check { margin-left: auto; color: $forest; font-size: 18px; }
+
+  // Computador: menu ancorado ao botão
+  @include media-up(md) {
+    .sort-menu__backdrop { display: none; }
+    .sort-menu__panel {
+      position: absolute; left: auto; right: 0; bottom: auto; top: calc(100% + 6px); min-width: 240px;
+      padding: 6px; border: 1px solid $line; border-radius: $r-card;
+      box-shadow: 0 12px 32px rgba($forest, .14); animation: sort-pop .12s ease-out;
+      &::before { display: none; }
+    }
+    .sort-menu__title { display: none; }
+    [role="menuitemradio"] { min-height: 42px; font-size: 15px; }
+  }
+}
+
+@keyframes sort-sheet-up { from { transform: translateY(100%); } }
+@keyframes sort-pop { from { opacity: 0; transform: translateY(-4px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .sort-menu .sort-menu__panel { animation: none; }
+}

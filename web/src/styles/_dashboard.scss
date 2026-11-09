@@ -1,0 +1,35 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Moldura dos painéis (produtor e administração): menu à esquerda, conteúdo à direita
+.dashboard {
+  display: grid; gap: 24px;
+  > * { min-width: 0; }
+  @include media-up(lg) { grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+}
+
+.dashboard-title { font-size: clamp(34px, 5vw, 52px); }
+
+// Comuns aos painéis do produtor e da administração
+.stats {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
+  @include media-up(lg) { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+}
+
+.stat {
+  background: $white; border: 1px solid $line; border-radius: $r-card; padding: 16px;
+  small { display: block; color: $muted; font-size: 13px; }
+  b { display: block; margin: 4px 0 2px; font-size: 30px; font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  > span { font-size: 13px; color: $muted; }
+  .good { color: #2F7D3A; font-weight: 600; }
+}
+.attention { color: $error; font-weight: 600; }
+
+// Tabela e coluna lateral; a tabela precisa de espaço, por isso só ficam lado a lado em ecrãs largos
+.two-columns {
+  display: grid; gap: 16px;
+  > * { min-width: 0; }
+  > .side { display: grid; gap: 16px; align-content: start; }
+  @media (min-width: 768px) and (max-width: 1399.98px) { > .side { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1400px) { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; }
+}

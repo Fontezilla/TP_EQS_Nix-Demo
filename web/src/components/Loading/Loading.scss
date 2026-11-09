@@ -1,0 +1,7 @@
+@use '../../styles/variables' as *;
+
+.loading {
+  display: grid; justify-items: center; gap: 12px; padding: 72px 0;
+  color: $muted; font-size: 15px;
+  .sprout-anim { width: 48px; height: 48px; }
+}

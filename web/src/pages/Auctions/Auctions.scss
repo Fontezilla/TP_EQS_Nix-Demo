@@ -1,0 +1,12 @@
+@use '../../styles/mixins' as *;
+
+.live-grid {
+  display: grid; gap: 12px;
+  @include media-up(md) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @include media-up(xl) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  // O 3.º cartão só cabe com 3 colunas; abaixo disso passa para a lista "Também a decorrer"
+  @include media-down(xl) { > :nth-child(n + 3) { display: none; } }
+}
+
+.narrow-only { @include media-up(xl) { display: none; } }

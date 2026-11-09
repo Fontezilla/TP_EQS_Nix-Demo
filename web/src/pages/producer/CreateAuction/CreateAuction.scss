@@ -1,0 +1,13 @@
+@use '../../../styles/mixins' as *;
+
+.create-auction {
+  display: grid; gap: 20px;
+  > * { min-width: 0; }
+  // Com o menu do painel ao lado, a antevisão só cabe à direita em ecrãs largos
+  @include media-up(xl) {
+    grid-template-columns: minmax(0, 1fr) 340px; align-items: start;
+    .preview { position: sticky; top: 96px; }
+  }
+  fieldset { min-width: 0; }
+  legend { float: none; }
+}

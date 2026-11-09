@@ -1,0 +1,11 @@
+// Passo 1: mixin Mobile First: estilos base = telemóvel; acrescenta a partir de cada largura
+@use 'sass:map';
+@use 'variables' as *;
+
+@mixin media-up($bp) {
+  @media (min-width: map.get($breakpoints, $bp)) { @content; }
+}
+
+@mixin media-down($bp) {
+  @media (max-width: map.get($breakpoints, $bp) - .02px) { @content; }
+}

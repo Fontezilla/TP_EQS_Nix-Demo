@@ -1,0 +1,15 @@
+{
+  "name": "do-campo-a-mesa",
+  "private": true,
+  "description": "Atalhos para correr a API e a SPA a partir da raiz",
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c green,cyan \"npm run dev --prefix api\" \"npm run dev --prefix web\"",
+    "seed": "npm run seed --prefix api",
+    "instalar": "npm install && npm install --prefix api && npm install --prefix web",
+    "docker": "docker compose up --build",
+    "backoffice": "docker compose up --build backoffice"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

@@ -1,0 +1,48 @@
+@use '../../styles/variables' as *;
+
+.narrow-page { max-width: 860px; margin-inline: auto; }
+// O título fica alinhado como nas outras páginas; só o conteúdo é centrado
+.orders-header { margin-bottom: 32px; }
+
+.live-notice {
+  display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px;
+  background: $forest; color: #EAF2EC;
+  i { color: $lime; font-size: 20px; }
+  small { display: block; color: $muted-dark; }
+  animation: notice-in 300ms ease-out;
+}
+
+@keyframes notice-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+.order {
+  small a { color: inherit; }
+  .star-icon { color: $star; }
+}
+
+.order-items {
+  display: grid; gap: 6px; list-style: none; margin: 0; padding: 12px 0 0; border-top: 1px dashed $line; font-size: 14px;
+  li { display: flex; justify-content: space-between; gap: 12px; }
+  .total { border-top: 1px solid $line; padding-top: 8px; margin-top: 4px; font-weight: 700; }
+}
+.order > .order-items:nth-child(2) { margin-top: 14px; }
+
+.delivery-note { display: flex; gap: 10px; align-items: flex-start; margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: $paper; font-size: 14px; }
+
+.star-picker {
+  display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 4px;
+  input { position: absolute; opacity: 0; }
+  label { font-size: 32px; line-height: 1; color: $line; cursor: pointer; }
+  input:checked ~ label, label:hover, label:hover ~ label { color: $star; }
+  input:focus-visible + label { outline: 3px solid $forest; outline-offset: 2px; border-radius: 6px; }
+}
+
+.awaiting {
+  h3 { font-size: 18px; color: $white; }
+  h3 a { color: inherit; }
+  .tile { width: 56px; height: 56px; flex: none; }
+  .tile svg { width: 70%; height: 70%; }
+  .tile img { width: 100%; height: 100%; object-fit: cover; }
+  .deadline { color: $lime; }
+}
+
+.payment-receipt { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0 0; font-size: 13px; color: $muted; }

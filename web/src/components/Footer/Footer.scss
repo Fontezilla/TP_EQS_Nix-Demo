@@ -1,0 +1,8 @@
+@use '../../styles/variables' as *;
+
+.site-footer {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+  padding: 26px 0; margin-top: 56px; border-top: 1px solid $line;
+  font-size: 13px; color: $muted;
+  b { color: $ink; }
+}

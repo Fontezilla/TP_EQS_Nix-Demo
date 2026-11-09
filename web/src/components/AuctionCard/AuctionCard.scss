@@ -1,0 +1,25 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.live-auction {
+  display: grid; grid-template-columns: minmax(0, 1fr) 88px; gap: 12px 16px; min-width: 0;
+  background: $white; border: 1px solid $line; border-left: 4px solid var(--stripe, $line);
+  border-radius: $r-card; padding: 18px;
+
+  h3 { overflow-wrap: anywhere; }
+  .tile { width: 88px; height: 88px; grid-row: span 2; }
+  .tile svg { width: 66%; height: 66%; }
+  .tile img { width: 100%; height: 100%; object-fit: cover; }
+
+  .status { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; font-size: 13px; color: $muted; }
+  .live { display: inline-flex; align-items: center; gap: 6px; color: #C2362A; font-weight: 700; }
+
+  .values {
+    grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end;
+    small { display: block; font-size: 12px; color: $muted; }
+    b { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .time { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  }
+
+  .btn { grid-column: 1 / -1; justify-self: start; }
+}

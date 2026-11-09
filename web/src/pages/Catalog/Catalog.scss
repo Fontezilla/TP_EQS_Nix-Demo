@@ -1,0 +1,84 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.hero {
+  display: grid; gap: 28px; padding: 32px 0 8px;
+  > * { min-width: 0; }
+  // O título fica a 32px da navbar, como o primeiro elemento das outras páginas (alinhado ao topo, não ao centro do bilhete)
+  @include media-up(lg) { grid-template-columns: 1.15fr .85fr; align-items: start; gap: 40px; }
+}
+
+// Um só bloco com uma largura: título, pesquisa e categorias acabam todos na mesma margem direita
+.hero__intro {
+  max-width: 640px;
+  .subtitle { font-size: 18px; color: $muted; max-width: 44ch; margin: 16px 0 24px; }
+  .chips { margin-top: 16px; }
+}
+
+.search-bar {
+  display: flex; align-items: center; gap: 6px;
+  background: $white; border: 1.5px solid $ink; border-radius: 999px; padding: 6px 6px 6px 18px;
+  &:focus-within { box-shadow: 0 0 0 .2rem rgba($forest, .15); }
+  i { color: $muted; font-size: 18px; }
+  input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; padding: 10px 0; font-size: 16px; }
+}
+
+// Categorias em mosaicos iguais (ícone em cima, nome por baixo), como pequenos cartões de produto.
+// Telemóvel e tablet: deslizam numa linha. Desktop: as 7 enchem a largura da pesquisa, sem partir linha.
+.chips {
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
+  @include media-up(lg) { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); overflow-x: visible; padding-bottom: 0; }
+}
+
+.chip {
+  flex: 0 0 84px; display: grid; justify-items: center; gap: 6px; padding: 10px 4px 8px;
+  background: $white; border: 1px solid $line; border-radius: 16px; font-weight: 500; font-size: 13px; color: $ink;
+  &:hover { border-color: $ink; }
+  .tile { width: 40px; height: 40px; border-radius: 50%; }
+  .tile svg { width: 30px; height: 30px; }
+  &.is-active { background: $forest; color: $white; border-color: $forest; }
+  &.is-active .tile { box-shadow: 0 0 0 2px $forest, 0 0 0 4px $lime; }
+}
+
+.catalog {
+  display: grid; gap: 24px;
+  > * { min-width: 0; }
+  @include media-up(lg) { grid-template-columns: 250px minmax(0, 1fr); gap: 32px; align-items: start; }
+}
+
+.filters {
+  --bs-offcanvas-height: 85vh;
+  &.offcanvas-bottom { border-radius: 24px 24px 0 0; }
+  // A mesma margem lateral das páginas (20px), para nada ficar colado à borda do ecrã
+  .offcanvas-header, .offcanvas-body { padding-inline: 20px; }
+
+  // A legenda fica na borda do fieldset e ignora o padding: o espaço de cima vai na própria legenda
+  fieldset { padding: 0 0 16px; border-bottom: 1px solid $line; }
+  legend { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; padding-top: 14px; margin-bottom: 10px; float: none; }
+  fieldset:first-child legend { padding-top: 0; }
+  .form-check { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding-left: 0; min-height: 0; }
+  .form-check:last-child { margin-bottom: 0; }
+  .form-check-input { margin: 0; float: none; }
+  .form-switch .form-check-input { width: 2em; }
+  .form-check-label { flex: 1; }
+  .count { color: $muted; font-size: 13px; }
+  .offcanvas-footer { display: flex; gap: 8px; padding: 12px 20px 16px; border-top: 1px solid $line; }
+
+  @include media-up(lg) {
+    position: sticky; top: 96px;
+    .offcanvas-body { padding: 0; }
+    .offcanvas-footer { padding: 16px 0 0; border-top: 0; }
+  }
+}
+
+.results-bar {
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px;
+  .total { margin: 0 auto 0 4px; color: $muted; }
+  .total b { color: $ink; font-size: 18px; }
+}
+
+.active-filters {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+  .tag { border: 1px solid $line; padding: 6px 12px; font-size: 13px; }
+  .tag:hover { border-color: $ink; }
+}

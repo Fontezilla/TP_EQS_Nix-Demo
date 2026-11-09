@@ -1,0 +1,6 @@
+// Ordem: Bootstrap com o tema -> estilos globais da aplicação
+// Os estilos de cada página e componente estão na pasta respetiva.
+@use 'variables' as *;
+@use 'theme';
+@use 'base';
+@use 'dashboard';

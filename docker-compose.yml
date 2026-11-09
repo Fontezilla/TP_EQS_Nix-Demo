@@ -1,0 +1,27 @@
+# API (Node) e backoffice (Laravel) em contentores. A base de dados é o MongoDB Atlas (fora daqui)
+# e a SPA corre com "npm run dev --prefix web" (em produção vai para o Azure Static Web Apps).
+#   docker compose up --build      -> API em http://localhost:3000 e backoffice em http://localhost:8000
+services:
+  api:
+    build: ./api
+    env_file: ./api/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - api-uploads:/app/uploads
+
+  backoffice:
+    build: ./backoffice
+    env_file: ./backoffice/.env
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backoffice/app:/var/www/html/app
+      - ./backoffice/config:/var/www/html/config
+      - ./backoffice/lang:/var/www/html/lang
+      - ./backoffice/public:/var/www/html/public
+      - ./backoffice/resources:/var/www/html/resources
+      - ./backoffice/routes:/var/www/html/routes
+
+volumes:
+  api-uploads:

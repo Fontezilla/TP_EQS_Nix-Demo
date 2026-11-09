@@ -1,0 +1,70 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.site-header { position: sticky; top: 12px; z-index: 1030; margin-top: 12px; }
+
+// Vidro fosco a toda a largura: 12px acima e 12px abaixo da navbar
+.header-glass {
+  position: fixed; z-index: -1; top: 0; left: 0; right: 0;
+  height: 78px; // 12px de margem + navbar (54px) + 12px por baixo
+  background: rgba($paper, .55);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  pointer-events: none;
+}
+
+.nav-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba($white, .88); backdrop-filter: blur(12px);
+  border: 1px solid $line; border-radius: 999px;
+  padding: 6px 6px 6px 16px;
+}
+
+.brand {
+  display: flex; align-items: center; gap: 8px; white-space: nowrap;
+  text-decoration: none; color: $ink; font-weight: 700; font-size: 17px; letter-spacing: -0.02em;
+  .logo { width: 28px; height: 28px; flex: none; }
+}
+
+.nav-links {
+  display: none; gap: 2px; margin: 0 0 0 12px; padding: 0; list-style: none;
+  @include media-up(md) { display: flex; }
+  a {
+    display: block; padding: 8px 14px; border-radius: 999px;
+    text-decoration: none; font-weight: 500; color: $ink;
+    &:hover { background: $paper; }
+    &.is-active { background: $forest; color: $white; }
+  }
+}
+
+.nav-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+
+.live-pill {
+  display: none; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px;
+  background: $coral-light; color: $ink; text-decoration: none; font-weight: 600; font-size: 14px; white-space: nowrap;
+  @include media-up(lg) { display: inline-flex; }
+}
+
+.icon-button {
+  position: relative; display: grid; place-content: center; width: 44px; height: 44px; border-radius: 50%;
+  border: 0; background: $paper; color: $ink; font-size: 20px; text-decoration: none;
+  .count {
+    position: absolute; top: 3px; right: 1px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px;
+    background: $forest; color: $lime; font-size: 11px; font-weight: 700; display: grid; place-content: center;
+  }
+}
+
+.avatar {
+  width: 44px; height: 44px; border-radius: 50%; border: 0; flex: none;
+  background: $lime; color: $forest; display: grid; place-content: center; font-weight: 700; font-size: 15px;
+  &.admin { background: $forest; color: $lime; }
+}
+
+.account-menu {
+  .dropdown-menu { border-color: $line; border-radius: 16px; padding: 8px; min-width: 240px; margin-top: 8px !important; }
+  .menu-header {
+    padding: 8px 10px 10px; margin-bottom: 6px; border-bottom: 1px solid $line; font-size: 14px; color: $muted;
+    strong { display: block; color: $ink; font-size: 15px; }
+  }
+  .dropdown-item { border-radius: 10px; padding: 8px 10px; }
+}

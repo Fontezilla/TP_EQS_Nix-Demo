@@ -1,0 +1,39 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.products-table .mini-product .tile img { width: 100%; height: 100%; object-fit: cover; }
+
+// Telemóvel: produto e botões em cima; preço, stock e época lado a lado por baixo
+.products-table {
+  @include media-down(md) {
+    tr { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: 'product product actions' 'price stock season'; align-items: start; }
+    .cell-product { grid-area: product; }
+    .cell-actions { grid-area: actions; display: flex; justify-content: flex-end; gap: 4px; }
+    .cell-actions .btn { padding-inline: 12px; }
+    .cell-price { grid-area: price; }
+    .cell-stock { grid-area: stock; }
+    .cell-season { grid-area: season; font-size: 14px; }
+    .cell-price, .cell-stock { white-space: normal !important; }
+  }
+}
+
+.success-notice {
+  display: flex; gap: 10px; align-items: center; padding: 12px 16px; border-radius: 14px;
+  background: $lime-light; color: $forest; font-weight: 600;
+}
+
+// Fotografia no formulário: o quadro da categoria (ou a foto) com a ação por cima
+.product-photo {
+  position: relative; display: block; cursor: pointer; border-radius: $r-field;
+  .tile { aspect-ratio: 1; border: 2px dashed rgba($ink, .2); }
+  .tile svg { width: 60%; height: 60%; }
+  .tile img { width: 100%; height: 100%; object-fit: cover; }
+  &__action {
+    position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); white-space: nowrap;
+    display: inline-flex; gap: 6px; align-items: center; padding: 6px 12px; border-radius: 999px;
+    background: rgba($white, .92); font-size: 13px; font-weight: 600;
+  }
+  &:hover .tile { border-color: $forest; }
+}
+// O input do ficheiro está escondido: o foco do teclado aparece no quadro da fotografia
+:has(> #photo:focus-visible) > .product-photo { outline: 3px solid $forest; outline-offset: 3px; }

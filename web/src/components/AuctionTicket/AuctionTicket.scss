@@ -1,0 +1,35 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.ticket {
+  position: relative; overflow: hidden; display: grid; gap: 14px; min-height: 400px;
+  background: $forest; color: #EAF2EC; border-radius: $r-large; padding: 22px;
+  @include media-up(lg) { min-height: 460px; padding: 28px; }
+
+  h2 { font-size: 26px; line-height: 1.1; color: $white; }
+  small { display: block; color: $muted-dark; font-size: 13px; }
+}
+
+.ticket__top { position: relative; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; font-size: 14px; }
+
+.ticket .ticket__art {
+  position: absolute; right: -70px; top: 70px; width: 230px; height: 230px;
+  @include media-up(lg) { width: 270px; height: 270px; right: -80px; top: 64px; }
+}
+
+.ticket__text, .ticket__values { position: relative; max-width: 62%; }
+.ticket__text { margin-top: auto; }
+.ticket__values { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: flex-end; }
+
+.ticket__actions {
+  position: relative; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  font-size: 14px; color: $muted-dark;
+  b { color: $lime; font-weight: 600; }
+}
+
+.live-price {
+  display: inline-block; font-size: clamp(50px, 8vw, 68px); line-height: .9; font-weight: 800;
+  font-variation-settings: 'opsz' 96, 'wdth' 80; letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+}
+
+.clock { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }

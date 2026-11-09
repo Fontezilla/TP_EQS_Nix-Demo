@@ -1,0 +1,14 @@
+@use '../../styles/variables' as *;
+
+.pager {
+  display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px;
+
+  ol { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+
+  ol button {
+    min-width: 38px; height: 38px; padding: 0 8px; border-radius: 999px;
+    border: 1px solid transparent; background: none; font-weight: 600; color: $ink;
+    &:hover { border-color: $line; background: $white; }
+    &.is-active { background: $forest; color: $white; }
+  }
+}

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="sprout" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#0F3D2E"/>
+    <path d="M16 25v-9" stroke="#C8E86B" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M16 17c0-5 3-8 8-8 0 5-3 8-8 8zM16 19c0-4-3-7-7-7 0 4 3 7 7 7z" fill="#C8E86B"/>
+  </symbol>
+  <symbol id="fruit" viewBox="0 0 200 200">
+    <path d="M100 52c6-18 20-26 34-24-8 10-22 16-34 24z" fill="#3E8B47"/>
+    <path d="M100 62c-16-10-60-12-68 36-6 42 18 82 44 82 12 0 16-6 24-6s12 6 24 6c26 0 50-40 44-82-8-48-52-46-68-36z" fill="#D8483C"/>
+    <path d="M68 86c-6 10-8 22-6 34" stroke="#F08A7E" stroke-width="8" stroke-linecap="round" fill="none"/>
+  </symbol>
+  <symbol id="vegetables" viewBox="0 0 200 200">
+    <path d="M100 180c-60-8-86-60-70-110 10-30 40-48 70-50 30 2 60 20 70 50 16 50-10 102-70 110z" fill="#3E8B47"/>
+    <path d="M100 176c-40-12-58-50-48-88 8-24 28-38 48-40 20 2 40 16 48 40 10 38-8 76-48 88z" fill="#5FAE5A"/>
+    <path d="M100 176V54M100 90l-26-16M100 90l26-16M100 124l-32-18M100 124l32-18" stroke="#CFE8C0" stroke-width="5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="honey" viewBox="0 0 200 200">
+    <rect x="56" y="30" width="88" height="24" rx="6" fill="#3B2A16"/>
+    <rect x="44" y="50" width="112" height="126" rx="26" fill="#E9A23B"/>
+    <rect x="44" y="50" width="112" height="30" rx="14" fill="#D48A22"/>
+    <rect x="62" y="96" width="76" height="52" rx="10" fill="#FFF6DE"/>
+    <path d="M100 108l14 8v16l-14 8-14-8v-16z" fill="#E9A23B"/>
+  </symbol>
+  <symbol id="wine" viewBox="0 0 200 200">
+    <rect x="86" y="18" width="28" height="18" rx="4" fill="#3A1F2C"/>
+    <path d="M88 36h24v30c0 8 22 16 22 40v70a8 8 0 0 1-8 8H74a8 8 0 0 1-8-8v-70c0-24 22-32 22-40z" fill="#5E2446"/>
+    <rect x="74" y="112" width="52" height="46" rx="6" fill="#F3E7EE"/>
+    <rect x="84" y="124" width="32" height="5" rx="2.5" fill="#5E2446"/>
+    <rect x="88" y="136" width="24" height="4" rx="2" fill="#B98AA6"/>
+  </symbol>
+  <symbol id="cheese" viewBox="-61 -34 500 500">
+    <path
+      d="M32 230 L348 105
+        Q360 100 359 118
+        L355 192 Q350 210 359 222
+        L357 296 Q357 309 343 315
+        L28 403 Q13 408 18 390
+        L37 292 Q42 280 32 273 Z"
+      fill="#FFC943"/>
+    <path
+      d="M32 230 L130 38
+        Q138 23 155 29
+        L351 91
+        Q365 96 359 110
+        L348 105 Z"
+      fill="#FFE68D"/>
+    <g fill="#F9B52D">
+      <ellipse cx="139" cy="88" rx="24" ry="14"
+        transform="rotate(-7 139 88)"/>
+      <ellipse cx="211" cy="64" rx="18" ry="11"
+        transform="rotate(3 211 64)"/>
+      <ellipse cx="282" cy="99" rx="31" ry="17"
+        transform="rotate(5 282 99)"/>
+      <ellipse cx="119" cy="166" rx="23" ry="14"
+        transform="rotate(-18 119 166)"/>
+    </g>
+    <g fill="#ECA51B">
+      <ellipse cx="60" cy="310" rx="9" ry="13"
+        transform="rotate(25 60 310)"/>
+      <ellipse cx="204" cy="294" rx="18" ry="34"
+        transform="rotate(25 204 294)"/>
+      <ellipse cx="285" cy="224" rx="17" ry="36"
+        transform="rotate(25 285 224)"/>
+    </g>
+  </symbol>
+  <symbol id="bakery" viewBox="0 0 200 200">
+    <ellipse cx="100" cy="150" rx="78" ry="16" fill="#8A5A2B"/>
+    <path d="M22 148c0-52 34-92 78-92s78 40 78 92z" fill="#C58A4A"/>
+    <path d="M60 92c10-8 20-10 28-8M98 78c12-6 22-6 30-2M72 118c12-8 24-10 34-6M114 104c12-6 24-6 32 0" stroke="#E7C48F" stroke-width="7" stroke-linecap="round" fill="none"/>
+  </symbol>
+  <symbol id="other" viewBox="0 0 200 200">
+    <path d="M58 92a42 42 0 0 1 84 0" stroke="#8A5A2B" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <circle cx="78" cy="92" r="16" fill="#7A4424"/><circle cx="104" cy="86" r="18" fill="#E9A23B"/><circle cx="128" cy="94" r="14" fill="#5FAE5A"/>
+    <path d="M30 100h140l-14 70a10 10 0 0 1-10 8H54a10 10 0 0 1-10-8z" fill="#C58A4A"/>
+    <path d="M40 124h120M46 150h108" stroke="#E7C48F" stroke-width="6" stroke-linecap="round"/>
+    <path d="M72 102v72M100 102v72M128 102v72" stroke="#A56E38" stroke-width="5"/>
+  </symbol>
+</svg>

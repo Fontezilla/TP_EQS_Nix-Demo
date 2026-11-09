@@ -1,0 +1,80 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// Vidro fosco a toda a largura, como o do cabeçalho: 10px abaixo e 10px acima da barra
+.tab-bar-glass {
+  position: fixed; z-index: 1029; left: 0; right: 0; bottom: 0;
+  height: 85px; // 10px de margem + barra (65px) + 10px por cima
+  background: rgba($paper, .55);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  pointer-events: none;
+  @include media-up(md) { display: none; }
+}
+
+.tab-bar-wrap {
+  position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 1030;
+  display: grid; pointer-events: none; // a barra das secções escondida não pode tapar a página
+  > .tab-bar, > .panel-tray.is-open { pointer-events: auto; }
+  @include media-up(md) { display: none; }
+}
+
+.tab-bar {
+  position: relative; z-index: 1;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  background: $forest; border-radius: 22px; padding: 6px;
+
+  a, button {
+    position: relative; display: grid; justify-items: center; gap: 2px; padding: 7px 0 5px; border-radius: 16px;
+    background: none; border: 0; font: inherit;
+    text-decoration: none; color: $muted-dark; font-size: 11px; font-weight: 500;
+    i { font-size: 21px; line-height: 1; }
+    &.is-active { background: $forest-2; color: $lime; }
+    &:focus-visible { outline: 2px solid $lime; outline-offset: -2px; }
+  }
+
+  // Seta pequena no "Painel" que mostra que há mais secções por cima
+  .tab-bar__more { position: absolute; top: 5px; right: 10px; font-size: 11px !important; transition: transform .15s ease; }
+  .is-open .tab-bar__more { transform: rotate(180deg); }
+
+  .count {
+    position: absolute; top: 3px; left: calc(50% + 6px); min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px;
+    background: $lime; color: $forest; font-size: 10px; font-weight: 700; display: grid; place-content: center;
+  }
+}
+
+// Secções do painel: verde mais claro que a barra. Desce 22px por trás da barra (que mantém os cantos
+// redondos), por isso as duas ficam ligadas. Fechada, esconde-se a deslizar para trás da barra.
+// Cada coluna tem pelo menos a largura do seu rótulo (nada se sobrepõe num ecrã estreito).
+.panel-tray {
+  display: grid; grid-template-columns: repeat(5, minmax(min-content, 1fr)); gap: 2px;
+  margin-bottom: -22px; padding: 6px 6px 28px;
+  background: $forest-3; border-radius: 22px 22px 0 0;
+  opacity: 0; visibility: hidden; transform: translateY(60%);
+  transition: transform .24s cubic-bezier(.4, 0, 1, 1), opacity .2s ease-in, visibility 0s linear .24s;
+
+  &.is-open {
+    opacity: 1; visibility: visible; transform: none;
+    transition: transform .34s cubic-bezier(.2, .8, .2, 1), opacity .24s ease-out, visibility 0s;
+  }
+
+  a {
+    position: relative; display: grid; justify-items: center; align-content: start; gap: 4px;
+    padding: 8px 4px 6px; border-radius: 16px; text-decoration: none; white-space: nowrap;
+    color: #EAF2EC; font-size: 11px; font-weight: 500; line-height: 1.15; text-align: center;
+    i { font-size: 19px; line-height: 1; }
+    &.is-active { background: $lime; color: $forest; font-weight: 700; }
+    &:focus-visible { outline: 2px solid $lime; outline-offset: -2px; }
+  }
+
+  .count {
+    position: absolute; top: 3px; left: calc(50% + 5px); min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px;
+    background: $coral; color: $ink; font-size: 10px; font-weight: 700; display: grid; place-content: center;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-tray, .panel-tray.is-open { transition: none; }
+  .tab-bar .tab-bar__more { transition: none; }
+}

@@ -1,0 +1,42 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.stack-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+// Todas as linhas com a mesma altura; o texto que não cabe acaba em "…"
+.list-row {
+  position: relative; height: 86px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center;
+  background: $white; border: 1px solid $line; border-left: 4px solid var(--stripe, $line);
+  border-radius: 16px; padding: 10px 14px 10px 10px;
+
+  &:has(.stretched-link:hover) { border-color: $ink; border-left-color: var(--stripe); }
+
+  h3 { font-size: 15px; }
+  h3 a { color: inherit; text-decoration: none; }
+  h3, p, .right { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  p { margin: 2px 0 0; font-size: 13px; color: $muted; }
+
+  .right {
+    max-width: min(34vw, 260px); text-align: right; font-size: 13px; color: $muted;
+    b { display: block; color: $ink; font-size: 16px; }
+  }
+}
+
+.time-box {
+  width: 64px; height: 64px; border-radius: 14px; background: $paper;
+  display: grid; place-content: center; text-align: center; line-height: 1;
+  b { font-size: 22px; font-weight: 750; letter-spacing: -0.03em; }
+  span { font-size: 11px; color: $muted; margin-top: 3px; }
+}
+
+@media (max-width: 575.98px) {
+  .list-row .mini-product:has(.time-box) {
+    gap: 8px;
+    .time-box { width: 52px; height: 52px; }
+    .time-box b { font-size: 18px; }
+    .tile { width: 36px; height: 36px; border-radius: 10px; }
+  }
+}
+
+.day-title { font-size: 15px; font-weight: 700; margin: 20px 0 8px; color: $muted; }

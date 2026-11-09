@@ -1,0 +1,38 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// Exceção ao espaçamento das outras páginas: a 404 fica centrada na vertical, entre a navbar e o rodapé
+main:has(> .not-found) { display: flex; flex-direction: column; }
+
+.not-found {
+  max-width: 640px; margin-inline: auto; text-align: center;
+  flex: 1; display: flex; flex-direction: column; justify-content: center; width: 100%;
+  // Em cima o mesmo espaço que o rodapé deixa por baixo (margin-top: 56px), para ficar no centro exato
+  padding-block: 56px 0;
+
+  &__number {
+    display: flex; justify-content: center; align-items: center; gap: .04em; margin: 0 0 24px;
+    font-size: clamp(120px, 30vw, 220px); line-height: .8; font-weight: 800; color: $forest;
+    font-variation-settings: 'opsz' 96, 'wdth' 75;
+  }
+
+  // O "0" é o rebento do logótipo, que cresce uma vez ao abrir a página
+  &__sprout {
+    width: .72em; height: .72em; flex: none;
+    animation: sprout-pop 700ms cubic-bezier(.2, .8, .2, 1.2) both;
+  }
+
+  h1 { font-size: clamp(32px, 5vw, 48px); }
+
+  &__text {
+    margin: 14px auto 28px; font-size: 18px; color: $muted; max-width: 46ch;
+    code { color: $ink; background: $lime-light; padding: 1px 6px; border-radius: 6px; font-size: .85em; word-break: break-all; }
+  }
+
+  &__actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+}
+
+@keyframes sprout-pop {
+  from { transform: scale(.2) rotate(-25deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}

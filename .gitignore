@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+api/uploads/
+
+# Nix: dados do MongoDB local e ligação ao resultado de builds
+.nix-data/
+result

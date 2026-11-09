@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mercado digital de produtores locais do Alto Minho" />
+    <title>Do Campo à Mesa</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0F3D2E" />
+    <!-- Ecrã de carregamento: estilos aqui para aparecer antes de o resto do site chegar -->
+    <style>
+      #loader {
+        position: fixed; inset: 0; z-index: 2000; display: grid; place-content: center; justify-items: center; gap: 18px;
+        background: #FBFBF7; color: #5E6A63; font: 500 15px/1.4 system-ui, sans-serif;
+        transition: opacity 350ms ease, visibility 350ms;
+      }
+      #loader.done { opacity: 0; visibility: hidden; }
+      .sprout-anim { width: 72px; height: 72px; }
+      .sprout-anim .stem { stroke-dasharray: 9; animation: stem 2.2s ease-in-out infinite; }
+      .sprout-anim .leaf { transform-box: view-box; transform: scale(0); animation: leaf 2.2s ease-in-out infinite; }
+      .sprout-anim .leaf-r { transform-origin: 16px 17px; animation-delay: 0.25s; }
+      .sprout-anim .leaf-l { transform-origin: 16px 19px; animation-delay: 0.45s; }
+      @keyframes stem { 0% { stroke-dashoffset: 9; } 30%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 9; } }
+      @keyframes leaf { 0%, 15% { transform: scale(0); } 40%, 80% { transform: scale(1); } 95%, 100% { transform: scale(0); } }
+      @media (prefers-reduced-motion: reduce) {
+        .sprout-anim .stem, .sprout-anim .leaf { animation: none; stroke-dashoffset: 0; transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loader" role="status" aria-live="polite">
+      <svg class="sprout-anim" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="16" fill="#0F3D2E" />
+        <path class="stem" d="M16 25v-9" stroke="#C8E86B" stroke-width="2.4" stroke-linecap="round" fill="none" />
+        <path class="leaf leaf-r" d="M16 17c0-5 3-8 8-8 0 5-3 8-8 8z" fill="#C8E86B" />
+        <path class="leaf leaf-l" d="M16 19c0-4-3-7-7-7 0 4 3 7 7 7z" fill="#C8E86B" />
+      </svg>
+      <span>A preparar o mercado</span>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

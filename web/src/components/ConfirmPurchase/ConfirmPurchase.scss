@@ -1,0 +1,12 @@
+@use '../../styles/variables' as *;
+
+.confirm-purchase {
+  // Confirmar a toda a largura; "Recusar" e "Não, voltar" são secundários (só contorno, sobre o fundo escuro)
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .btn-ghost {
+    background: transparent; color: #EAF2EC; border-color: rgba($white, .3);
+    &:hover:not(:disabled), &:focus-visible { color: $white; border-color: $white; background: rgba($white, .06); }
+  }
+  .deadline { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .rejection { background: $coral-light; color: #8A1F14; border-radius: 12px; padding: 10px 12px; font-size: 14px; }
+}

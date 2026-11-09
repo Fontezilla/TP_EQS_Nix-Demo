@@ -1,0 +1,53 @@
+// Passo 1: cores, letra e medidas do tema (redefinem as do Bootstrap antes de o importar)
+$paper: #FBFBF7;
+$white: #FFFFFF;
+$forest: #0F3D2E;
+$forest-2: #174D3B;
+$forest-3: #1F5A46;
+$ink: #102A20;
+$muted: #5E6A63;
+$muted-dark: #A9C2B4;
+$line: #E4E7DF;
+$lime: #C8E86B;
+$lime-light: #EEF7D2;
+$coral: #FF5B4A;
+$coral-light: #FFEDEA;
+$notice: #FFF1D6;
+$notice-text: #7A5200;
+$error: #B42318;
+$star: #E9A23B;
+
+// Categoria: fundo claro do campo e cor forte da faixa lateral
+$categories: (
+  fruit: (#F9DAD3, #E36F5A),
+  vegetables: (#D6ECD2, #5FA05A),
+  honey: (#FBEAB6, #E5A92E),
+  wine: (#EDD9E5, #9E4E78),
+  cheese: (#F7EECB, #D4B243),
+  bakery: (#F1E0CA, #C1864A),
+  other: (#EBDDD0, #9C8068)
+);
+
+$r-large: 28px;
+$r-card: 20px;
+$r-field: 14px;
+
+$font: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+
+// Breakpoints próprios (Mobile First)
+$breakpoints: (md: 768px, lg: 1024px, xl: 1280px);
+
+// Variáveis do Bootstrap
+// O lg do Bootstrap (992px) passa a ser o nosso (1024px): classes como offcanvas-lg e d-lg-none
+// mudam à mesma largura que as grelhas feitas com media-up(lg)
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 1024px, xl: 1200px, xxl: 1400px);
+$primary: $forest;
+$success: $forest;
+$danger: $error;
+$body-bg: $paper;
+$body-color: $ink;
+$border-color: $line;
+$link-color: $forest;
+$secondary-color: $muted;
+$font-family-sans-serif: $font;
+$border-radius: $r-field;

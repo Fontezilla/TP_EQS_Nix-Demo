@@ -1,0 +1,11 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.small-clock { font-size: 20px; font-weight: 700; color: $lime; font-variant-numeric: tabular-nums; }
+.panel-dark .value { display: block; font-size: 24px; color: $white; }
+
+.stock {
+  display: grid; gap: 4px;
+  .bar { height: 6px; border-radius: 3px; background: $line; overflow: hidden; }
+  .bar span { display: block; height: 100%; background: $coral; }
+}
